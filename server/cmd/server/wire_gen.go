@@ -6,21 +6,21 @@
 package main
 
 import (
-	"github.com/roman-mazur/chat-channels-example/server/channels"
+	"github.com/jn-lp/se-lab3/server/plants"
 )
 
 // Injectors from modules.go:
 
-func ComposeApiServer(port HttpPortNumber) (*ChatApiServer, error) {
+func ComposeApiServer(port HttpPortNumber) (*PlantsApiServer, error) {
 	db, err := NewDbConnection()
 	if err != nil {
 		return nil, err
 	}
-	store := channels.NewStore(db)
-	httpHandlerFunc := channels.HttpHandler(store)
-	chatApiServer := &ChatApiServer{
-		Port:            port,
-		ChannelsHandler: httpHandlerFunc,
+	store := plants.NewStore(db)
+	httpHandlerFunc := plants.HTTPHandler(store)
+	plantsApiServer := &PlantsApiServer{
+		Port:          port,
+		PlantsHandler: httpHandlerFunc,
 	}
-	return chatApiServer, nil
+	return plantsApiServer, nil
 }
