@@ -1,32 +1,39 @@
-// This file contains examples of scenarios implementation using
-// the SDK for channels management.
+const { Client } = require("./plants/client");
 
-const channels = require('./channels/client');
+const client = Client("http://localhost:8080");
 
-const client = channels.Client('http://localhost:8080');
+(async () => {
+  // Scenario 1: Create new plant
+  console.log("=== Scenario 1 ===");
+  try {
+    const newPlant = await client.createPlant();
+    console.log("Create plant response:", newPlant);
+  } catch (err) {
+    console.log(`Problem creating new plant: `, err);
+  }
 
-// Scenario 1: Display available channels.
-client.listChannels()
-    .then((list) => {
-        console.log('=== Scenario 1 ===');
-        console.log('Available channels:');
-        list.forEach((c) => console.log(c.name));
-    })
-    .catch((e) => {
-        console.log(`Problem listing available channels: ${e.message}`);
-    });
+  // Scenario 2: Display plants with low soil moisture level
+  let plants;
+  console.log("=== Scenario 2 ===");
+  try {
+    plants = await client.listPlants();
+    console.log("Plants with low soil moisture level:");
+    console.table(plants);
+  } catch (err) {
+    console.log(`Problem listing plants: `, err);
+  }
 
-// Scenario 2: Create new channel.
-client.createChannel('my-new-channel')
-    .then((resp) => {
-        console.log('=== Scenario 2 ===');
-        console.log('Create channel response:', resp);
-        return client.listChannels()
-            .then((list) => list.map((c) => c.name).join(', '))
-            .then((str) => {
-                console.log(`Current channels: ${str}`);
-            })
-    })
-    .catch((e) => {
-        console.log(`Problem creating a new channel: ${e.message}`);
-    });
+  // Scenario 3: Update plants soil moisture level
+  console.log("=== Scenario 3 ===");
+  const plant = await plants[~~(Math.random() * plants.length)];
+  const newLevel = plant.soilMoistureLevel - (Math.random() * 2 - 1);
+  try {
+    const updatedPlant = await client.updatePlant(
+      plant.id,
+      newLevel > 0 ? newLevel : -newLevel
+    );
+    console.log("Update plant response:", updatedPlant);
+  } catch (err) {
+    console.log(`Problem updating plant: `, err);
+  }
+})();
