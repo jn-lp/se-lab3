@@ -1,11 +1,6 @@
 {
-  "name": "chat",
-  "version": "1.0.0",
-  "description": "",
+  "name": "plants",
+  "version": "0.1.0",
   "main": "examples.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
   "license": "ISC"
 }
