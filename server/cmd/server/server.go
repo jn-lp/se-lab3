@@ -8,11 +8,12 @@ import (
 	"github.com/jn-lp/se-lab3/server/plants"
 )
 
-type HttpPortNumber int
+// HTTPPortNumber is a type for server's HTTP port
+type HTTPPortNumber int
 
-// PlantsApiServer configures necessary handlers and starts listening on a configured port.
-type PlantsApiServer struct {
-	Port HttpPortNumber
+// PlantsAPIServer configures necessary handlers and starts listening on a configured port.
+type PlantsAPIServer struct {
+	Port HTTPPortNumber
 
 	PlantsHandler plants.HTTPHandlerFunc
 
@@ -22,7 +23,7 @@ type PlantsApiServer struct {
 // Start will set all handlers and start listening.
 // If this methods succeeds, it does not return until server is shut down.
 // Returned error will never be nil.
-func (s *PlantsApiServer) Start() error {
+func (s *PlantsAPIServer) Start() error {
 	if s.PlantsHandler == nil {
 		return fmt.Errorf("plants HTTP handler is not defined - cannot start")
 	}
@@ -42,7 +43,7 @@ func (s *PlantsApiServer) Start() error {
 }
 
 // Stop will shut down previously started HTTP server.
-func (s *PlantsApiServer) Stop() error {
+func (s *PlantsAPIServer) Stop() error {
 	if s.server == nil {
 		return fmt.Errorf("server was not started")
 	}

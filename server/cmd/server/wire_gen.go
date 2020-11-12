@@ -11,14 +11,14 @@ import (
 
 // Injectors from modules.go:
 
-func ComposeApiServer(port HttpPortNumber) (*PlantsApiServer, error) {
+func ComposeApiServer(port HTTPPortNumber) (*PlantsAPIServer, error) {
 	db, err := NewDbConnection()
 	if err != nil {
 		return nil, err
 	}
 	store := plants.NewStore(db)
 	httpHandlerFunc := plants.HTTPHandler(store)
-	plantsApiServer := &PlantsApiServer{
+	plantsApiServer := &PlantsAPIServer{
 		Port:          port,
 		PlantsHandler: httpHandlerFunc,
 	}

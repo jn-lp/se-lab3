@@ -30,7 +30,7 @@ func main() {
 	flag.Parse()
 
 	// Create the server.
-	if server, err := ComposeApiServer(HttpPortNumber(*httpPortNumber)); err == nil {
+	if server, err := ComposeApiServer(HTTPPortNumber(*httpPortNumber)); err == nil {
 		// Start it.
 		go func() {
 			log.Println("Starting server...")
